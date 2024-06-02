@@ -17,16 +17,14 @@ def reconstruct_with_svd(img_array, n_components):
     S_trunc = np.zeros_like(S)
     S_trunc[:n_components] = S[:n_components]
     reconstructed_img_svd = U.dot(np.diag(S_trunc)).dot(Vt)
-    return reconstructed_img_svd.reshape(img_array.shape[0], -1)
-    return reconstructed_img  
+    return reconstructed_img_svd
+
 
 # 使用PCA进行降维和重构
 def reconstruct_with_pca(img_reshaped, n_components):
     pca = PCA(n_components=n_components)
     img_pca = pca.fit_transform(img_reshaped)
-    reconstructed_img_pca = pca.inverse_transform(img_pca)
-    #return reconstructed_img_pca.reshape(img_reshaped.shape[0], -1)
-    return reconstructed_img_pca
+    return img_pca@pca.components_
   
 parser = argparse.ArgumentParser(description='Image reconstruction using Truncated SVD')
 parser.add_argument('--m', type=int, default=50, help='Number of components to use for reconstruction')
